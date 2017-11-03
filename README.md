@@ -1,0 +1,3 @@
+# dFiler (you see what I did there?)
+
+A tool for managing dotfiles and packages for 'nix systems. Very much a WIP...
