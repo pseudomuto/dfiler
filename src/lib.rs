@@ -8,8 +8,24 @@
 //! TODO: Talk about how it works, and how to configure it.
 
 extern crate clap;
+#[macro_use]
+extern crate error_chain;
 
 use clap::{App, Arg, ArgMatches};
+
+mod commands;
+pub use commands::Command;
+
+mod context;
+pub use context::Context;
+
+/// Library specific errors.
+///
+/// This uses the error-chain crate to wrap errors and expose custom `Error`, `ErrorKind`,
+/// `ResultExt`, and `Result` types.
+pub mod errors {
+    error_chain!{}
+}
 
 /// Parses the command line args and returns an appropriate `clap::ArgMatches` object.
 ///
@@ -45,16 +61,7 @@ pub fn run<'a>(args: Vec<String>) -> ArgMatches<'a> {
                 .takes_value(true)
                 .default_value("$HOME"),
         )
-        .arg(Arg::with_name("packages-only").help("Only run packages task"))
-        .arg(Arg::with_name("symlinks-only").help("Only run symlinks task"))
-        .arg(Arg::with_name("dry-run").help("Don't run tasks, just show what would be done"))
+        .arg_from_usage("-l, --symlinks-only, 'only handle symlinks'")
+        .arg_from_usage("-n, --dry-run, 'See what would happen, but don\'t run anything'")
         .get_matches_from(args)
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
 }

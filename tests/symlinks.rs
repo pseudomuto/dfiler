@@ -16,12 +16,11 @@ fn teardown() {}
 fn creates_symlinks_for_files_and_directories() {
     run_test(|| {
         invoke(vec![
-            "run",
+            "--symlinks-only",
             "-s",
             "../fixture",
             "-t",
             "tmp/symlinks",
-            "--symlinks-only",
         ]);
 
         assert!(Path::new("tmp/symlinks/bin/yo").exists());

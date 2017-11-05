@@ -5,4 +5,5 @@ authors     = ["David Muto (pseudomuto) <david.muto@gmail.com>"]
 description = "A tool for managing dotfiles and packages for 'nix systems."
 
 [dependencies]
-clap = "~2.27.0"
+clap        = "~2.27.0"
+error-chain = "~0.11"
