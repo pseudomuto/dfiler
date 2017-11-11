@@ -5,9 +5,8 @@ use std::panic;
 use std::path::Path;
 
 fn setup() {
-    fs::create_dir_all("tmp/symlinks").unwrap_or_else(|why| {
-        println!("! {:?}", why.kind());
-    });
+    fs::remove_dir_all("./tmp").unwrap_or_else(|why| println!("! {:?}", why.kind()));
+    fs::create_dir_all("./tmp/symlinks").unwrap_or_else(|why| println!("! {:?}", why.kind()));
 }
 
 fn teardown() {}
@@ -16,11 +15,12 @@ fn teardown() {}
 fn creates_symlinks_for_files_and_directories() {
     run_test(|| {
         invoke(vec![
-            "--symlinks-only",
+            "dfiler",
             "-s",
-            "../fixture",
+            "fixture/source",
             "-t",
             "tmp/symlinks",
+            "--symlinks-only",
         ]);
 
         assert!(Path::new("tmp/symlinks/bin/yo").exists());
@@ -30,7 +30,7 @@ fn creates_symlinks_for_files_and_directories() {
 
 fn invoke(args: Vec<&str>) {
     let values = args.into_iter().map(String::from).collect();
-    dfiler::run(values);
+    dfiler::run(values).expect("Something went wrong");
 }
 
 fn run_test<T>(test: T) -> ()

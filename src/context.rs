@@ -5,6 +5,7 @@ use errors::*;
 
 /// The Context struct contains details about the current run, like source/target paths, and
 /// whether or not this is a dry run.
+#[derive(Debug)]
 pub struct Context {
     /// The source path containing the dfiler.yml and source files
     pub source_path: PathBuf,

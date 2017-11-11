@@ -10,14 +10,24 @@
 extern crate clap;
 #[macro_use]
 extern crate error_chain;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_yaml;
 
-use clap::{App, Arg, ArgMatches};
+use std::env;
+
+use clap::{App, Arg};
 
 mod commands;
 pub use commands::Command;
 
+mod config;
+pub use config::Config;
+
 mod context;
 pub use context::Context;
+
+mod symlink;
 
 /// Library specific errors.
 ///
@@ -35,10 +45,30 @@ pub mod errors {
 /// # extern crate dfiler;
 /// use std::env;
 ///
-/// let matches = dfiler::run(env::args().skip(1).collect());
-/// // do something with the matches...
+/// if let Err(error) = dfiler::run(env::args().skip(1).collect()) {
+///     println!("Got an error: {}", error);
+/// }
 /// ```
-pub fn run<'a>(args: Vec<String>) -> ArgMatches<'a> {
+pub fn run(args: Vec<String>) -> errors::Result<()> {
+    let default_source = env::current_dir().unwrap().to_str().unwrap().to_owned();
+    let default_target = env::home_dir().unwrap().to_str().unwrap().to_owned();
+
+    let matches = new_app(&default_source, &default_target).get_matches_from(args);
+    let context = Context::new(
+        matches.value_of("source").unwrap(), // unwrap is safe due to default
+        matches.value_of("target").unwrap(), // unwrap is safe due to default
+        matches.is_present("dry-run"),
+    )?;
+
+    let config = Config::from_yaml_file(&context.source_path.join("dfiler.yml"))?;
+
+    // TODO: you know...all the things...which commands, etc.
+    Command::Symlinks.execute(&context, &config)?;
+
+    Ok(())
+}
+
+fn new_app<'a, 'b>(default_source: &'a str, default_target: &'a str) -> App<'a, 'b> {
     App::new("dfiler")
         .version(env!("CARGO_PKG_VERSION"))
         .author(env!("CARGO_PKG_AUTHORS"))
@@ -50,7 +80,7 @@ pub fn run<'a>(args: Vec<String>) -> ArgMatches<'a> {
                 .help("The source directory")
                 .value_name("DIR")
                 .takes_value(true)
-                .default_value("./"),
+                .default_value(default_source),
         )
         .arg(
             Arg::with_name("target")
@@ -59,9 +89,8 @@ pub fn run<'a>(args: Vec<String>) -> ArgMatches<'a> {
                 .help("The target directory")
                 .value_name("DIR")
                 .takes_value(true)
-                .default_value("$HOME"),
+                .default_value(default_target),
         )
-        .arg_from_usage("-l, --symlinks-only, 'only handle symlinks'")
-        .arg_from_usage("-n, --dry-run, 'See what would happen, but don\'t run anything'")
-        .get_matches_from(args)
+        .arg_from_usage("-n, --dry-run... 'See what would happen, but don\'t run anything'")
+        .arg_from_usage("-l, --symlinks-only... 'only handle symlinks'")
 }
