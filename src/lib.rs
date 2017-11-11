@@ -11,12 +11,14 @@ extern crate clap;
 #[macro_use]
 extern crate error_chain;
 #[macro_use]
+extern crate log;
+#[macro_use]
 extern crate serde_derive;
 extern crate serde_yaml;
 
 use std::env;
 
-use clap::{App, Arg};
+use clap::{App, AppSettings, Arg};
 
 mod commands;
 pub use commands::Command;
@@ -63,7 +65,9 @@ pub fn run(args: Vec<String>) -> errors::Result<()> {
     let config = Config::from_yaml_file(&context.source_path.join("dfiler.yml"))?;
 
     // TODO: you know...all the things...which commands, etc.
-    Command::Symlinks.execute(&context, &config)?;
+    Command::Symlinks
+        .execute(&context, &config)
+        .unwrap_or_else(|e| error!("{}", e));
 
     Ok(())
 }
@@ -73,6 +77,9 @@ fn new_app<'a, 'b>(default_source: &'a str, default_target: &'a str) -> App<'a, 
         .version(env!("CARGO_PKG_VERSION"))
         .author(env!("CARGO_PKG_AUTHORS"))
         .about(env!("CARGO_PKG_DESCRIPTION"))
+        .setting(AppSettings::GlobalVersion)
+        .setting(AppSettings::NoBinaryName)
+        .setting(AppSettings::UnifiedHelpMessage)
         .arg(
             Arg::with_name("source")
                 .short("s")

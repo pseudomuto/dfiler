@@ -15,7 +15,6 @@ fn teardown() {}
 fn creates_symlinks_for_files_and_directories() {
     run_test(|| {
         invoke(vec![
-            "dfiler",
             "-s",
             "fixture/source",
             "-t",

@@ -48,11 +48,16 @@ fn create_symlinks(ctx: &Context, config: &Config) -> Result<()> {
 
         if target == PLACEHOLDER {
             link.target = ctx.target_path.join(source);
+            trace!("Replacing {} with {}", PLACEHOLDER, link.target.display());
         }
 
-        if !link.exists() {
-            link.create()?;
+        if link.exists() {
+            debug!("Symlink at {} already exists", link.target.display());
+            continue;
         }
+
+        link.create()?;
+        info!("Created symlink at {}", link.target.display());
     }
 
     Ok(())
