@@ -1,0 +1,7 @@
+.git/
+log/
+logs/
+images/
+node_modules/
+tmp/
+vendor/
