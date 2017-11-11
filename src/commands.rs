@@ -56,7 +56,10 @@ fn create_symlinks(ctx: &Context, config: &Config) -> Result<()> {
             continue;
         }
 
-        link.create()?;
+        if !ctx.dry_run {
+            link.create()?;
+        }
+
         info!("Created symlink at {}", link.target.display());
     }
 
