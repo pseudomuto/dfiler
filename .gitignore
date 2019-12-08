@@ -1,4 +1,3 @@
-/target/
-**/*.rs.bk
-Cargo.lock
-/tmp/
+.idea/
+build/
+coverage.info
