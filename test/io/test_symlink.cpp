@@ -1,7 +1,8 @@
 #include <filesystem>
 
+#include <gtest/gtest.h>
+
 #include "../../src/io/symlink.h"
-#include "gtest/gtest.h"
 
 namespace {
 namespace fs = std::filesystem;

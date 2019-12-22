@@ -1,18 +1,21 @@
-.PHONY: build clean
+.PHONY: build conan clean
 
-build:
-	@mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -j 4 ..
+BUILD_TYPE ?= Debug
+COMPILER ?= libc++
+
+conan:
+	@mkdir -p build && cd build && conan install ../ -s build_type=$(BUILD_TYPE) -s compiler.libcxx=$(COMPILER) --build=missing
+
+build: conan
+	@cd build && cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCODE_COVERAGE=ON -j 4 ..
 
 clean:
 	@rm -rf build
 
 test: build
-	@cd build && make tests test CTEST_OUTPUT_ON_FAILURE=TRUE
+	@cd build && make tests CMAKE_BUILD_TYPE=$(BUILD_TYPE) test CTEST_OUTPUT_ON_FAILURE=TRUE
 
-coverage: clean
-	@mkdir -p build
-	@cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON -j 4 ..
-	@cd build && make tests test CTEST_OUTPUT_ON_FAILURE=TRUE
+coverage: clean test
 	@lcov --capture --directory . --output-file coverage.info
 	@lcov --remove coverage.info '*/usr/*' '*/_deps/*' --output-file coverage.info > /dev/null
 	@lcov --list coverage.info
