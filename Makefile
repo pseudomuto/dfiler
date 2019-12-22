@@ -1,9 +1,10 @@
 .PHONY: build conan clean
 
 BUILD_TYPE ?= Debug
+COMPILER ?= libc++
 
 conan:
-	@mkdir -p build && cd build && conan install ../ -s build_type=$(BUILD_TYPE) -s compiler.libcxx=libstdc++11 --build=missing
+	@mkdir -p build && cd build && conan install ../ -s build_type=$(BUILD_TYPE) -s compiler.libcxx=$(COMPILER) --build=missing
 
 build: conan
 	@cd build && cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCODE_COVERAGE=ON -j 4 ..

@@ -6,7 +6,7 @@ before_install:
   - docker pull conanio/gcc9
 
 script:
-  - docker run --rm conanio/gcc9 /bin/bash -c "make test"
+  - docker run --rm -e COMPILER=libstdc++11 -v $(pwd)/:/home/conan/ conanio/gcc9 /bin/bash -c "make test"
 
 notifications:
   email: false
