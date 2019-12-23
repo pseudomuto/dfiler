@@ -9,7 +9,7 @@ namespace fs = std::filesystem;
 
 class SymlinkTest : public ::testing::Test {
  protected:
-  SymlinkTest() : projectDir_(fs::canonical("../../")), tmpDir_(fs::temp_directory_path() / "dfiler") {}
+  SymlinkTest() : projectDir_(fs::canonical("../../../")), tmpDir_(fs::temp_directory_path() / "dfiler") {}
 
   void SetUp() override { fs::create_directories(tmpDir_); }
 

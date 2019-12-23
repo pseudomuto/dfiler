@@ -1,0 +1,10 @@
+add_library(dfiler_lib src/io/symlink.cpp)
+
+target_include_directories(dfiler_lib
+        PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+add_subdirectory("test")

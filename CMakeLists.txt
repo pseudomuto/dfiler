@@ -5,18 +5,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # extract version details
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt" RAW_VERSION)
-string(REGEX MATCH "^[0-9]+\\.[0-9]+\\.[0-9]+" DOTFILES_BASE_VERSION "${RAW_VERSION}")
+string(REGEX MATCH "^[0-9]+\\.[0-9]+\\.[0-9]+" DFILER_BASE_VERSION "${RAW_VERSION}")
 
-project(dotfiles
+project(dfiler
         LANGUAGES CXX
-        VERSION "${DOTFILES_BASE_VERSION}")
+        VERSION "${DFILER_BASE_VERSION}")
 
-set(DOTFILES_VERSION_MAJOR "${dotfiles_VERSION_MAJOR}")
-set(DOTFILES_VERSION_MINOR "${dotfiles_VERSION_MINOR}")
-set(DOTFILES_VERSION_PATCH "${dotfiles_VERSION_PATCH}")
+set(DFILER_VERSION_MAJOR "${dfiler_VERSION_MAJOR}")
+set(DFILER_VERSION_MINOR "${dfiler_VERSION_MINOR}")
+set(DFILER_VERSION_PATCH "${dfiler_VERSION_PATCH}")
 
-message(STATUS "Dotfiles version: "
-        "${DOTFILES_VERSION_MAJOR}.${DOTFILES_VERSION_MINOR}.${DOTFILES_VERSION_PATCH} "
+message(STATUS "dfiler version: "
+        "${DFILER_VERSION_MAJOR}.${DFILER_VERSION_MINOR}.${DFILER_VERSION_PATCH} "
         "(full: '${RAW_VERSION}')")
 
 include(ExternalProject)
@@ -44,6 +44,5 @@ conan_basic_setup(TARGETS)
 ################################################################################
 # Subdirectories
 ################################################################################
-add_subdirectory(bin)
-add_subdirectory(src)
-add_subdirectory(test)
+add_subdirectory(dfiler)
+add_subdirectory(dfiler_lib)
