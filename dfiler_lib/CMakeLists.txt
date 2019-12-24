@@ -1,4 +1,4 @@
-add_library(dfiler_lib src/io/symlink.cpp)
+add_library(dfiler_lib src/symlink_action.cpp)
 
 target_include_directories(dfiler_lib
         PUBLIC
