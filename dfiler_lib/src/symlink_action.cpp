@@ -1,15 +1,15 @@
 #include <iostream>
-#include <sstream>
 
 #include "symlink_action.h"
 
-const std::string dfiler::SymlinkAction::Description() const noexcept {
-  auto ss = std::stringstream();
-  ss << "Symlink " << link_ << " to " << target_;
-  return ss.str();
+namespace dfiler {
+const ActionType SymlinkAction::Type() const noexcept { return ActionType::Symlink; }
+
+const std::string SymlinkAction::Description() const noexcept {
+  return "Symlink " + link_.string() + " to " + target_.string();
 }
 
-bool dfiler::SymlinkAction::IsMet() const {
+bool SymlinkAction::IsMet() const {
   if (!fs::is_symlink(link_)) {
     return false;
   }
@@ -18,4 +18,8 @@ bool dfiler::SymlinkAction::IsMet() const {
   return target.compare(target_) == 0;
 }
 
-void dfiler::SymlinkAction::Meet() const { fs::create_symlink(target_, link_); }
+void SymlinkAction::Meet() const {
+  fs::create_directories(link_.parent_path());
+  fs::create_symlink(target_, link_);
+}
+}  // namespace dfiler

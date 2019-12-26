@@ -4,13 +4,28 @@
 
 namespace dfiler {
 /**
+ * An enumeration of the possible action types.
+ */
+enum class ActionType { Symlink };
+
+/**
  * Represents an action that must be taken to make the image complete.
  */
 class Action {
  protected:
   explicit Action() {}
+  Action(Action const&) = delete;
+  Action(Action&&) = delete;
 
  public:
+  virtual ~Action() {}
+
+  /**
+   * The type of action this is.
+   * @return the associated {@see ActionType}
+   */
+  virtual const ActionType Type() const noexcept = 0;
+
   /**
    * Describes the action to be taken.
    * @return A string representation of the action

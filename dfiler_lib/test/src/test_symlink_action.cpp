@@ -9,6 +9,19 @@ class SymlinkActionTest : public dfiler::utils::ImageTest {};
 }  // namespace
 
 namespace dfiler {
+TEST_F(SymlinkActionTest, Type) {
+  auto action = SymlinkAction(TargetPath(".gitignore"), ImagePath(".gitignore"));
+  EXPECT_EQ(ActionType::Symlink, action.Type());
+}
+
+TEST_F(SymlinkActionTest, Description) {
+  auto link = TargetPath(".gitignore");
+  auto target = ImagePath(".gitignore");
+
+  auto action = SymlinkAction(link, target);
+  EXPECT_EQ("Symlink " + link.string() + " to " + target.string(), action.Description());
+}
+
 TEST_F(SymlinkActionTest, Meet) {
   auto link = TargetPath(".gitignore");
   auto target = ImagePath(".gitignore");
