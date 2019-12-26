@@ -16,7 +16,7 @@ clean:
 test: build
 	@cd build && make tests libtests CMAKE_BUILD_TYPE=$(BUILD_TYPE) test CTEST_OUTPUT_ON_FAILURE=TRUE
 
-coverage: clean test
-	@lcov --capture --directory . --output-file coverage.info
-	@lcov --remove coverage.info '*/usr/*' '*/_deps/*' --output-file coverage.info > /dev/null
-	@lcov --list coverage.info
+coverage: test
+	@cd build && lcov --capture --directory . --output-file codecov.info
+	@cd build && lcov --remove codecov.info '*/usr/*' '*/.conan/*' '*/test/*' --output-file codecov.info > /dev/null
+	@cd build && lcov --list codecov.info
