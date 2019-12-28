@@ -5,9 +5,6 @@ python: "3.7"
 os: linux
 dist: bionic
 
-env:
-  - CODECOV=ON COMPILER=libstdc++11
-
 cache:
   pip: true
   directories:
@@ -21,7 +18,7 @@ before_install:
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9
 
 script:
-  - make coverage
+  - CODECOV=ON COMPILER=libstdc++11 make coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
