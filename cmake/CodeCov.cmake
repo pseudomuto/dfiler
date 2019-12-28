@@ -20,5 +20,5 @@ message(STATUS "Appending code coverage compiler flags: ${CMAKE_CXX_FLAGS_CODECO
 add_custom_target(codecov
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
         COMMENT "Generating code cov report at ${PROJECT_BINARY_DIR}/codecov.xml"
-        COMMAND ${GCOVR_PATH} -r .. --object-directory "${PROJECT_BINARY_DIR}"
-        COMMAND ${GCOVR_PATH} --xml -r .. --object-directory "${PROJECT_BINARY_DIR}" -o codecov.xml)
+        COMMAND ${GCOVR_PATH} -r .. --object-directory "${PROJECT_BINARY_DIR}" -e ".*/test/.*"
+        COMMAND ${GCOVR_PATH} --xml-pretty -r .. --object-directory "${PROJECT_BINARY_DIR}" -e ".*/test/.*" -o codecov.xml)
