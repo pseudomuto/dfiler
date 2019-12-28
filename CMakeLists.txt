@@ -29,8 +29,7 @@ include(SetupCxxFlags)
 
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 if (CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    include(CodeCoverage)
-    APPEND_COVERAGE_COMPILER_FLAGS()
+    include(CodeCov)
 endif ()
 
 ################################################################################

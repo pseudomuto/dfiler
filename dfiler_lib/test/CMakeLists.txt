@@ -3,7 +3,3 @@ target_link_libraries(libtests PUBLIC dfiler_lib PRIVATE CONAN_PKG::GTest)
 
 include(GoogleTest)
 gtest_discover_tests(libtests)
-
-if (CODE_COVERAGE)
-    set_target_properties(libtests PROPERTIES COMPILE_FLAGS "--coverage" LINK_FLAGS "--coverage")
-endif ()

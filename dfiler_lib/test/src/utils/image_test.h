@@ -4,12 +4,13 @@
 #include <filesystem>
 #include <fstream>
 
+#include "shell.h"
+
 namespace dfiler::utils {
 class ImageTest : public ::testing::Test {
  protected:
   ImageTest()
-      : imageDir_(std::filesystem::canonical("../../../test_data/image")),
-        tmpDir_(std::filesystem::temp_directory_path() / "dfiler_sym") {}
+      : imageDir_(RootPath("test_data/image")), tmpDir_(std::filesystem::temp_directory_path() / "dfiler_sym") {}
 
   void SetUp() override { std::filesystem::create_directories(tmpDir_); }
 
@@ -31,5 +32,10 @@ class ImageTest : public ::testing::Test {
  private:
   const std::filesystem::path imageDir_;
   const std::filesystem::path tmpDir_;
+
+  static std::filesystem::path RootPath(std::string subPath) {
+    auto gitRoot = execute("git rev-parse --show-toplevel");
+    return std::filesystem::path(gitRoot) / subPath;
+  }
 };
 }  // namespace dfiler::utils

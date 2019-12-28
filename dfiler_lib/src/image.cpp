@@ -1,4 +1,3 @@
-#include <iostream>
 #include <map>
 #include <vector>
 
@@ -9,7 +8,7 @@ namespace fs = std::filesystem;
 
 namespace {
 auto Files(const fs::path& dir) {
-  auto files = std::vector<const fs::path>();
+  auto files = std::vector<fs::path>();
 
   for (const auto& entry : fs::recursive_directory_iterator(dir)) {
     if (!entry.is_regular_file()) {

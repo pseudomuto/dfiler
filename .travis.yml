@@ -6,7 +6,7 @@ before_install:
   - docker pull conanio/gcc9
 
 script:
-  - docker run --rm -e CODECOV=ON -e COMPILER=libstdc++11 -v $(pwd)/:/home/conan/ conanio/gcc9 /bin/bash -c "make coverage"
+  - docker run --rm -e CODECOV=ON -e COMPILER=libstdc++11 -v $(pwd)/:/home/conan/ conanio/gcc9 /bin/bash -c "pip install gcovr && make coverage"
 
 notifications:
   email: false

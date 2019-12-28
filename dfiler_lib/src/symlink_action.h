@@ -10,8 +10,8 @@ class SymlinkAction : public Action {
  public:
   SymlinkAction(const fs::path& link, const fs::path& target) : link_(link), target_(target) {}
 
-  const ActionType Type() const noexcept override;
-  const std::string Description() const noexcept override;
+  ActionType Type() const noexcept override;
+  std::string Description() const noexcept override;
   bool IsMet() const override;
   void Meet() const override;
 
