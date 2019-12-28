@@ -63,4 +63,28 @@ TEST_F(SymlinkActionTest, IsAppliedWhenExistsButLinkedToDifferentFile) {
   auto action = SymlinkAction(link, target);
   EXPECT_FALSE(action.IsApplied());
 }
+
+TEST_F(SymlinkActionTest, Undo) {
+  auto link = TargetPath(".gitignore");
+  auto target = ImagePath(".gitignore");
+  auto action = SymlinkAction(link, target);
+
+  action.Apply();
+  EXPECT_TRUE(action.IsApplied());
+
+  action.Undo();
+  EXPECT_FALSE(action.IsApplied());
+}
+
+TEST_F(SymlinkActionTest, UndoWhenNotApplied) {
+  auto link = TargetPath(".gitignore");
+  auto target = ImagePath(".gitignore");
+  auto action = SymlinkAction(link, target);
+
+  EXPECT_FALSE(action.IsApplied());
+
+  // not an error condition
+  action.Undo();
+  EXPECT_FALSE(action.IsApplied());
+}
 }  // namespace dfiler

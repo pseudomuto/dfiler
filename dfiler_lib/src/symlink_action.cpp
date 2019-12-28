@@ -22,4 +22,8 @@ void SymlinkAction::Apply() const {
   fs::create_directories(link_.parent_path());
   fs::create_symlink(target_, link_);
 }
+
+void SymlinkAction::Undo() const {
+  fs::remove(link_);
+}
 }  // namespace dfiler

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <filesystem>
 #include <dfiler/dfiler.h>
+#include <filesystem>
 
 namespace dfiler {
 namespace fs = std::filesystem;
@@ -14,6 +14,7 @@ class SymlinkAction : public Action {
   std::string Description() const noexcept override;
   bool IsApplied() const override;
   void Apply() const override;
+  void Undo() const override;
 
  private:
   const fs::path link_;

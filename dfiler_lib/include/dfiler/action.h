@@ -42,5 +42,10 @@ class Action {
    * Performs the necessary steps to make this action complete.
    */
   virtual void Apply() const = 0;
+
+  /**
+   * Undoes this action by removing the file/package/etc.
+   */
+  virtual void Undo() const = 0;
 };
 }  // namespace dfiler
