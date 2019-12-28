@@ -22,45 +22,69 @@ TEST_F(SymlinkActionTest, Description) {
   EXPECT_EQ("Symlink " + link.string() + " to " + target.string(), action.Description());
 }
 
-TEST_F(SymlinkActionTest, Meet) {
+TEST_F(SymlinkActionTest, Apply) {
   auto link = TargetPath(".gitignore");
   auto target = ImagePath(".gitignore");
 
   auto action = SymlinkAction(link, target);
-  EXPECT_FALSE(action.IsMet());
+  EXPECT_FALSE(action.IsApplied());
 
-  action.Meet();
-  EXPECT_TRUE(action.IsMet());
+  action.Apply();
+  EXPECT_TRUE(action.IsApplied());
 }
 
-TEST_F(SymlinkActionTest, IsMet) {
+TEST_F(SymlinkActionTest, IsApplied) {
   auto link = TargetPath(".gitignore");
   auto target = ImagePath(".gitignore");
   MakeSymlink(link, target);
 
   auto action = SymlinkAction(link, target);
-  EXPECT_TRUE(action.IsMet());
+  EXPECT_TRUE(action.IsApplied());
 }
 
-TEST_F(SymlinkActionTest, IsMetWhenNotExists) {
+TEST_F(SymlinkActionTest, IsAppliedWhenNotExists) {
   auto action = SymlinkAction(ImagePath(".gitignore"), TargetPath(".gitignore"));
-  EXPECT_FALSE(action.IsMet());
+  EXPECT_FALSE(action.IsApplied());
 }
 
-TEST_F(SymlinkActionTest, IsMetWhenExistsButNotSymlink) {
+TEST_F(SymlinkActionTest, IsAppliedWhenExistsButNotSymlink) {
   auto target = TargetPath(".gitignore");
   WriteFile(target, "# gitignore file");
 
   auto action = SymlinkAction(ImagePath(".gitignore"), target);
-  EXPECT_FALSE(action.IsMet());
+  EXPECT_FALSE(action.IsApplied());
 }
 
-TEST_F(SymlinkActionTest, IsMetWhenExistsButLinkedToDifferentFile) {
+TEST_F(SymlinkActionTest, IsAppliedWhenExistsButLinkedToDifferentFile) {
   auto link = TargetPath(".gitignore");
   auto target = ImagePath(".gitignore");
   MakeSymlink(link, ImagePath("dir/subdir/.file"));
 
   auto action = SymlinkAction(link, target);
-  EXPECT_FALSE(action.IsMet());
+  EXPECT_FALSE(action.IsApplied());
+}
+
+TEST_F(SymlinkActionTest, Undo) {
+  auto link = TargetPath(".gitignore");
+  auto target = ImagePath(".gitignore");
+  auto action = SymlinkAction(link, target);
+
+  action.Apply();
+  EXPECT_TRUE(action.IsApplied());
+
+  action.Undo();
+  EXPECT_FALSE(action.IsApplied());
+}
+
+TEST_F(SymlinkActionTest, UndoWhenNotApplied) {
+  auto link = TargetPath(".gitignore");
+  auto target = ImagePath(".gitignore");
+  auto action = SymlinkAction(link, target);
+
+  EXPECT_FALSE(action.IsApplied());
+
+  // not an error condition
+  action.Undo();
+  EXPECT_FALSE(action.IsApplied());
 }
 }  // namespace dfiler

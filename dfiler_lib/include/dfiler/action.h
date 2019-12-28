@@ -36,11 +36,16 @@ class Action {
    * Checks whether or not this action has already been taken.
    * @return true if nothing needs to be done
    */
-  virtual bool IsMet() const = 0;
+  virtual bool IsApplied() const = 0;
 
   /**
    * Performs the necessary steps to make this action complete.
    */
-  virtual void Meet() const = 0;
+  virtual void Apply() const = 0;
+
+  /**
+   * Undoes this action by removing the file/package/etc.
+   */
+  virtual void Undo() const = 0;
 };
 }  // namespace dfiler
