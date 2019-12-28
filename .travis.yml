@@ -21,7 +21,7 @@ script:
   - CODECOV=ON COMPILER=libstdc++11 make coverage
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -f build/codecov.xml
 
 notifications:
   email: false
