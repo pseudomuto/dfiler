@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <set>
 
 #include "action.h"
@@ -26,7 +27,7 @@ class ActionSet {
    * @param type the {@see ActionType} to filter for
    * @return the filtered set of actions
    */
-  const std::set<std::shared_ptr<Action>> ForType(ActionType type) const noexcept;
+  std::set<std::shared_ptr<Action>> ForType(ActionType type) const noexcept;
 
  private:
   std::set<std::shared_ptr<Action>> actions_;

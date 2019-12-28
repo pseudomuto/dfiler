@@ -1,4 +1,4 @@
-.PHONY: build conan clean
+.PHONY: build conan clean docker_test
 
 BUILD_TYPE ?= Debug
 COMPILER ?= libc++
@@ -16,7 +16,9 @@ clean:
 test: build
 	@cd build && make tests libtests CMAKE_BUILD_TYPE=$(BUILD_TYPE) test CTEST_OUTPUT_ON_FAILURE=TRUE
 
-coverage: clean test
-	@lcov --capture --directory . --output-file coverage.info
-	@lcov --remove coverage.info '*/usr/*' '*/_deps/*' --output-file coverage.info > /dev/null
-	@lcov --list coverage.info
+docker_test:
+	@docker build -t dfiler_test -f test_data/Dockerfile .
+	@docker run --rm -e CODECOV=ON -e COMPILER=libstdc++11 -v /tmp/.conan/:/home/conan/ dfiler_test /bin/bash -c "make coverage"
+
+coverage: test
+	@cd build && make codecov CMAKE_BUILD_TYPE=$(BUILD_TYPE)

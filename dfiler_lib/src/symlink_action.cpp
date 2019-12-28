@@ -3,9 +3,9 @@
 #include "symlink_action.h"
 
 namespace dfiler {
-const ActionType SymlinkAction::Type() const noexcept { return ActionType::Symlink; }
+ActionType SymlinkAction::Type() const noexcept { return ActionType::Symlink; }
 
-const std::string SymlinkAction::Description() const noexcept {
+std::string SymlinkAction::Description() const noexcept {
   return "Symlink " + link_.string() + " to " + target_.string();
 }
 
