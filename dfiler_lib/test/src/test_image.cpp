@@ -15,7 +15,7 @@ TEST_F(ImageTest, Symlinks) {
   EXPECT_GT(actions.Size(), 0);
 
   for (const auto& action : actions.ForType(ActionType::Symlink)) {
-    EXPECT_TRUE(action->IsMet());
+    EXPECT_TRUE(action->IsApplied());
   }
 
   auto remainingActions = image.Apply(TargetPath(""));
@@ -31,7 +31,7 @@ TEST_F(ImageTest, Diff) {
   EXPECT_LE(symlinks.size(), actions.Size());
 
   for (const auto& action : symlinks) {
-    EXPECT_FALSE(action->IsMet());
+    EXPECT_FALSE(action->IsApplied());
   }
 }
 }  // namespace dfiler

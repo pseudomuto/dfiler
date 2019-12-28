@@ -27,7 +27,7 @@ ActionSet Image::Apply(const fs::path& targetDir) const {
   auto actions = Diff(targetDir);
 
   for (const auto& action : actions.ForType(ActionType::Symlink)) {
-    action->Meet();
+    action->Apply();
   }
 
   return actions;
@@ -38,7 +38,7 @@ ActionSet Image::Diff(const fs::path& targetDir) const {
 
   for (const auto& path : Files(imageDir_)) {
     auto action = std::make_unique<SymlinkAction>(RebasePath(targetDir, path), path);
-    if (!action->IsMet()) {
+    if (!action->IsApplied()) {
       actionMap.Add(std::move(action));
     }
   }
