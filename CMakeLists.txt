@@ -36,9 +36,7 @@ endif ()
 # Dependencies
 ################################################################################
 enable_testing()
-
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(TARGETS)
+include(Conan)
 
 ################################################################################
 # Subdirectories
