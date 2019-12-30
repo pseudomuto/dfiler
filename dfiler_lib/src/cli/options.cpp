@@ -1,7 +1,10 @@
-#include <dfiler/dfiler.h>
-#include <cxxopts.hpp>
-
-#include "help_command.h"
+#include <cxxopts.hpp>           // for Options, value, OptionAdder
+#include <iosfwd>                // for string
+#include <memory>                // for make_unique, shared_ptr, unique_ptr
+#include <string>                // for operator==
+#include "dfiler/cli/command.h"  // for Command
+#include "dfiler/cli/options.h"  // for Options
+#include "help_command.h"        // for HelpCommand
 
 namespace {
 struct Flags {

@@ -7,7 +7,7 @@ conan:
 	@conan remote add cxxopts https://api.bintray.com/conan/lordobsidian01/LordObsidian01 -f
 
 cmake: conan
-	@mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCODE_COVERAGE=$(CODECOV) -j 4 ..
+	@mkdir -p build && cd build && cmake -DCMAKE_CXX_INCLUDE_WHAT_YOU_USE=include-what-you-use -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCODE_COVERAGE=$(CODECOV) -j 4 ..
 
 build:
 	@cd build && make dfiler

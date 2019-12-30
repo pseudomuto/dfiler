@@ -1,4 +1,5 @@
 #include "help_command.h"
+#include <ostream>  // for operator<<, endl, ostream, basic_ostream
 
 namespace dfiler::cli {
 int HelpCommand::Execute(std::ostream& out, std::ostream& err) const {

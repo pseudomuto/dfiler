@@ -1,8 +1,15 @@
-#include <dfiler/dfiler.h>
-#include <map>
-#include <vector>
-
-#include "symlink_action.h"
+#include <chrono>               // for filesystem
+#include <filesystem>           // for path, operator/, recursive_directory_...
+#include <iosfwd>               // for string
+#include <memory>               // for make_unique, shared_ptr, unique_ptr
+#include <set>                  // for set
+#include <string>               // for basic_string
+#include <type_traits>          // for move
+#include <vector>               // for vector
+#include "dfiler/action.h"      // for Action, ActionType, ActionType::Symlink
+#include "dfiler/action_set.h"  // for ActionSet
+#include "dfiler/image.h"       // for Image
+#include "symlink_action.h"     // for SymlinkAction
 
 namespace fs = std::filesystem;
 

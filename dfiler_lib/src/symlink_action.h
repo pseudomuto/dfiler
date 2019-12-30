@@ -1,7 +1,9 @@
 #pragma once
 
-#include <dfiler/dfiler.h>
-#include <filesystem>
+#include <chrono>           // for filesystem
+#include <filesystem>       // for path
+#include <iosfwd>           // for string
+#include "dfiler/action.h"  // for Action, ActionType
 
 namespace dfiler {
 namespace fs = std::filesystem;

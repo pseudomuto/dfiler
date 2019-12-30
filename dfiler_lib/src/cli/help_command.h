@@ -1,8 +1,8 @@
 #pragma once
 
-#include <dfiler/dfiler.h>
-#include <string>
-#include <utility>
+#include <iosfwd>                // for ostream, string
+#include <type_traits>           // for move
+#include "dfiler/cli/command.h"  // for Command
 
 namespace dfiler::cli {
 class HelpCommand : public Command {
