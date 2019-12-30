@@ -5,4 +5,4 @@ WORKDIR /app
 COPY . .
 
 RUN sudo chown -R conan ./ && cp -R .conan/* /home/conan/.conan
-CMD ["make", "conan", "coverage", "CODECOV=ON"]
+CMD ["make", "cmake", "coverage", "CODECOV=ON"]

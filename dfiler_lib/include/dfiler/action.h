@@ -13,12 +13,12 @@ enum class ActionType { Symlink };
  */
 class Action {
  protected:
-  explicit Action() {}
-  Action(Action const&) = delete;
-  Action(Action&&) = delete;
+  explicit Action() = default;
 
  public:
-  virtual ~Action() {}
+  Action(Action const&) = delete;
+  Action(Action&&) = delete;
+  virtual ~Action() = default;
 
   /**
    * The type of action this is.
