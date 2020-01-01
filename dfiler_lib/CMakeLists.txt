@@ -1,5 +1,6 @@
 add_library(dfiler_lib
         src/action_set.cpp
+        src/cli/command.cpp
         src/cli/help_command.cpp
         src/cli/options.cpp
         src/cli/symlink_command.cpp

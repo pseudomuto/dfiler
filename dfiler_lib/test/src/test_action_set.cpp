@@ -1,7 +1,9 @@
-#include <dfiler/dfiler.h>
-#include <gtest/gtest.h>
-
-#include "../src/symlink_action.h"
+#include <gtest/gtest.h>            // for Test, SuiteApiResolver, TestInfo ...
+#include <memory>                   // for make_unique
+#include <set>                      // for set
+#include "../src/symlink_action.h"  // for SymlinkAction
+#include "dfiler/action.h"          // for Action, ActionType, ActionType::S...
+#include "dfiler/action_set.h"      // for ActionSet
 
 namespace dfiler {
 TEST(ActionSet, Add) {

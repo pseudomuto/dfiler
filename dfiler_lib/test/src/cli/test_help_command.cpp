@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
-
-#include "../../../src/cli/help_command.h"
+#include <gtest/gtest.h>                    // for Test, EXPECT_EQ, Message
+#include <sstream>                          // for basic_ostringstream, ostr...
+#include "../../../src/cli/help_command.h"  // for HelpCommand
 
 namespace dfiler::cli {
 TEST(HelpCommand, WhenCalledExplicitly) {

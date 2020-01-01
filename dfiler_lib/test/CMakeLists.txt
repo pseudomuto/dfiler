@@ -1,4 +1,5 @@
 add_executable(libtests
+        src/cli/test_command.cpp
         src/cli/test_help_command.cpp
         src/cli/test_symlink_command.cpp
         src/cli/test_options.cpp

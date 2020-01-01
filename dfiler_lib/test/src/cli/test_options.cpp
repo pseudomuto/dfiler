@@ -1,33 +1,14 @@
-#include <gtest/gtest.h>
-#include <cstring>
-#include <initializer_list>
-#include <memory>
-#include "../../../src/cli/help_command.h"
-#include "../../../src/cli/symlink_command.h"
-#include "dfiler/cli/options.h"
+#include <gtest/gtest.h>         // for AssertionResult, Message, TestPartRe...
+#include <initializer_list>      // for initializer_list
+#include <string>                // for string, basic_string
+#include "../utils/args.h"       // for Args
+#include "dfiler/cli/options.h"  // for Options
 
 namespace {
-struct Args {
-  explicit Args(std::initializer_list<const char*> args)
-      : argv_(new char*[args.size()]), argc_(static_cast<int>(args.size())) {
-    auto i = 0;
-    for (const auto& arg : args) {
-      argv_.get()[i++] = strdup(arg);
-    }
-  }
-
-  auto Argc() { return argc_; }
-  auto Argv() { return argv_.get(); }
-
- private:
-  int argc_;
-  std::unique_ptr<char*[]> argv_;
-};
-
 class OptionsTest : public ::testing::Test {
  public:
   static auto ParseCommand(std::initializer_list<const char*> args) {
-    auto mainArgs = Args(args);
+    auto mainArgs = dfiler::utils::Args(args);
     auto options = dfiler::cli::Options("dfiler", "tag line");
     options.Parse(mainArgs.Argc(), mainArgs.Argv());
 

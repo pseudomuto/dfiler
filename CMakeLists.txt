@@ -32,6 +32,15 @@ if (CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     include(CodeCov)
 endif ()
 
+option(IWYU "Run include-what-you-use with the compiler" OFF)
+if (IWYU)
+    find_program(IWYU_COMMAND NAMES include-what-you-use iwyu)
+    if(NOT IWYU_COMMAND)
+        message(FATAL_ERROR "CMAKE_IWYU is ON but include-what-you-use is not found!")
+    endif()
+    set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE "${IWYU_COMMAND};-Xiwyu;--mapping_file=${CMAKE_SOURCE_DIR}/iwyu.imp")
+endif ()
+
 ################################################################################
 # Dependencies
 ################################################################################

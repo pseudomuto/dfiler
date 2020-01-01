@@ -2,7 +2,7 @@
 
 #include <chrono>           // for filesystem
 #include <filesystem>       // for path
-#include <iosfwd>           // for string
+#include <string>           // for string
 #include "dfiler/action.h"  // for Action, ActionType
 
 namespace dfiler {

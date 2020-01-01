@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
-#include "../../../src/cli/symlink_command.h"
+#include <gtest/gtest.h>                       // for Test, EXPECT_EQ, Message
+#include <sstream>                             // for basic_ostringstream
+#include "../../../src/cli/symlink_command.h"  // for SymlinkCommand
 
 namespace dfiler::cli {
 TEST(SymlinkCommand, NormalCall) {
