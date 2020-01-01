@@ -25,7 +25,7 @@ install:
   - cp -R .conan/* ${HOME}/.conan
 
 script:
-  - CODECOV=ON make conan coverage
+  - CODECOV=ON IWYU= make cmake coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f build/codecov.xml
