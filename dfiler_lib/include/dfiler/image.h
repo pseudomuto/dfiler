@@ -1,8 +1,8 @@
 #pragma once
 
-#include <filesystem>
-
-#include "action.h"
+#include <filesystem>    // for path
+#include <type_traits>   // for move
+#include "action_set.h"  // for ActionSet
 
 namespace dfiler {
 /**
@@ -17,7 +17,7 @@ class Image {
    * Creates new Image with the supplied directory.
    * @param imageDir the image directory
    */
-  explicit Image(const std::filesystem::path& imageDir) : imageDir_(imageDir) {}
+  explicit Image(std::filesystem::path imageDir) : imageDir_(std::move(imageDir)) {}
 
   /**
    * Determines the missing actions (via {@see Image.Diff}) and applies them to the target directory.

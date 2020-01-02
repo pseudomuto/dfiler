@@ -1,8 +1,9 @@
-#include <gtest/gtest.h>
-#include <filesystem>
-
-#include "../src/symlink_action.h"
-#include "utils/image_test.h"
+#include <gtest/gtest.h>            // for AssertionResult, SuiteApiResolver
+#include <filesystem>               // for path
+#include <string>                   // for allocator, operator+
+#include "../src/symlink_action.h"  // for SymlinkAction
+#include "dfiler/action.h"          // for ActionType, ActionType::Symlink
+#include "utils/image_test.h"       // for ImageTest
 
 namespace {
 class SymlinkActionTest : public dfiler::utils::ImageTest {};

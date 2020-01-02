@@ -1,7 +1,10 @@
-#include <gtest/gtest.h>
-
-#include "dfiler/dfiler.h"
-#include "utils/image_test.h"
+#include <gtest/gtest.h>        // for AssertionResult, Message, TestPartResult
+#include <memory>               // for shared_ptr
+#include <set>                  // for set
+#include "dfiler/action.h"      // for Action, ActionType, ActionType::Symlink
+#include "dfiler/action_set.h"  // for ActionSet
+#include "dfiler/image.h"       // for Image
+#include "utils/image_test.h"   // for ImageTest
 
 namespace {
 class ImageTest : public ::dfiler::utils::ImageTest {};

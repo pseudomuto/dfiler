@@ -1,4 +1,9 @@
-#include "dfiler/dfiler.h"
+#include <stddef.h>             // for size_t
+#include <memory>               // for shared_ptr, unique_ptr
+#include <set>                  // for set
+#include <type_traits>          // for move
+#include "dfiler/action.h"      // for Action, ActionType
+#include "dfiler/action_set.h"  // for ActionSet
 
 namespace dfiler {
 

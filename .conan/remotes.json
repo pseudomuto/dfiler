@@ -1,0 +1,14 @@
+{
+ "remotes": [
+  {
+   "name": "conan-center",
+   "url": "https://conan.bintray.com",
+   "verify_ssl": true
+  },
+  {
+   "name": "cxxopts",
+   "url": "https://api.bintray.com/conan/lordobsidian01/LordObsidian01",
+   "verify_ssl": true
+  }
+ ]
+}
