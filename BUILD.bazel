@@ -1,0 +1,42 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+
+# gazelle:prefix github.com/pseudomuto/dfiler
+gazelle(name = "gazelle")
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go.mod",
+        "-to_macro=build/repos.bzl%_go_dependencies",
+        "-build_file_generation=on",
+        "-build_file_proto_mode=disable",
+        "-prune",
+    ],
+    command = "update-repos",
+)
+
+filegroup(
+    name = "package-srcs",
+    srcs = glob(
+        ["**"],
+        exclude = [
+            "bazel-*/**",
+            ".git/**",
+        ],
+    ),
+    tags = ["automanaged"],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
+    name = "all-srcs",
+    srcs = [
+        ":package-srcs",
+        "//bin:all-srcs",
+        "//build:all-srcs",
+        "//cmd/dfiler:all-srcs",
+    ],
+    tags = ["automanaged"],
+    visibility = ["//visibility:public"],
+)

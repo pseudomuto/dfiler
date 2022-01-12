@@ -1,0 +1,2 @@
+build --workspace_status_command build/workspace.sh
+test --test_output=errors --test_arg=-test.v --test_arg=-test.shuffle=on

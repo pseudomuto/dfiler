@@ -1,0 +1,22 @@
+package(default_visibility = ["//visibility:public"])
+
+genrule(
+    name = "fetch_kazel",
+    srcs = ["@io_k8s_repo_infra//cmd/kazel"],
+    outs = ["kazel"],
+    cmd = "cp $(SRCS) $@",
+)
+
+filegroup(
+    name = "package-srcs",
+    srcs = glob(["**"]),
+    tags = ["automanaged"],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
+    name = "all-srcs",
+    srcs = [":package-srcs"],
+    tags = ["automanaged"],
+    visibility = ["//visibility:public"],
+)
