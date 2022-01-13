@@ -15,10 +15,17 @@ help: ## Display this help
 		/^##@/ { printf "\n$(BOLD)%s$(CLEAR)\n", substr($$0, 5) }' \
 		$(MAKEFILE_LIST)
 
-##@: Build
-.PHONY: build
-build: ## Build the dfiler binary
-	VERSION=$(VERSION) BUILD_DATE="$(shell date)" bazel build --stamp //cmd/dfiler
+
+################################################################################
+# Release targets for building and releasing dfiler
+################################################################################
+##@: Release
+
+release/snapshot: ## Create a local release snapshot
+	@bazel run //bin:goreleaser -- --snapshot --rm-dist
+
+release/validate: ## Run goreleaser checks
+	@bazel run //bin:goreleaser -- check
 
 ################################################################################
 # Bazel targets for keeping things in sync

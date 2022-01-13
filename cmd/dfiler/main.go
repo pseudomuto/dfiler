@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-// build variables set by ldflags
 var (
-	buildDate = ""
-	version   = "undefined"
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+	builtBy = "unknown"
 )
 
 func main() {
-	fmt.Println(version)
-	fmt.Println(buildDate)
+	fmt.Printf("dfiler %s, commit %s, built at %s by %s", version, commit, date, builtBy)
 }

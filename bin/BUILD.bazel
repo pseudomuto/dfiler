@@ -6,6 +6,16 @@ config_setting(
     visibility = ["//visibility:private"],
 )
 
+genrule(
+    name = "fetch_goreleaser",
+    srcs = select({
+        ":darwin": ["@goreleaser_darwin//:file"],
+        "//conditions:default": ["@goreleaser_linux//:file"],
+    }),
+    outs = ["goreleaser"],
+    cmd = "cp $(SRCS) $@",
+)
+
 filegroup(
     name = "package-srcs",
     srcs = glob(["**"]),

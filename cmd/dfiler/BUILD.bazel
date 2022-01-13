@@ -11,10 +11,6 @@ go_binary(
     name = "dfiler",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
-    x_defs = {
-        "version": "{STABLE_VERSION}",
-        "buildDate": "{STABLE_BUILD_DATE}",
-    },
 )
 
 filegroup(
