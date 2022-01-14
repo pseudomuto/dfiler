@@ -36,6 +36,8 @@ filegroup(
         "//bin:all-srcs",
         "//build:all-srcs",
         "//cmd/dfiler:all-srcs",
+        "//pkg/system:all-srcs",
+        "//pkg/tasks:all-srcs",
     ],
     tags = ["automanaged"],
     visibility = ["//visibility:public"],

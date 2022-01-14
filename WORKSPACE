@@ -96,6 +96,21 @@ http_archive(
 )
 
 ################################################################################
+# Support for gomock
+################################################################################
+# This commit is tagged as v1.3
+bazel_gomock_commit = "fde78c91cf1783cc1e33ba278922ba67a6ee2a84"
+
+http_archive(
+    name = "bazel_gomock",
+    sha256 = "692421b0c5e04ae4bc0bfff42fb1ce8671fe68daee2b8d8ea94657bb1fcddc0a",
+    strip_prefix = "bazel_gomock-{v}".format(v = bazel_gomock_commit),
+    urls = [
+        "https://github.com/jmhodges/bazel_gomock/archive/{v}.tar.gz".format(v = bazel_gomock_commit),
+    ],
+)
+
+################################################################################
 # Install binaries from bin/deps.bzl%install
 ################################################################################
 load("//bin:deps.bzl", install_bins = "install")
