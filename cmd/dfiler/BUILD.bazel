@@ -5,6 +5,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/pseudomuto/dfiler/cmd/dfiler",
     visibility = ["//visibility:private"],
+    deps = ["//pkg/cli:go_default_library"],
 )
 
 go_binary(

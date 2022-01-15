@@ -1,14 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
+	"github.com/pseudomuto/dfiler/pkg/cli"
+)
+
+// auto-populated via ldflags by goreleaser
 var (
 	version = "dev"
 	commit  = "none"
 	date    = "unknown"
-	builtBy = "unknown"
 )
 
 func main() {
-	fmt.Printf("dfiler %s, commit %s, built at %s by %s", version, commit, date, builtBy)
+	err := cli.Run(
+		cli.WithBuildDate(date),
+		cli.WithBuildSHA(commit),
+		cli.WithVersion(version),
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 }

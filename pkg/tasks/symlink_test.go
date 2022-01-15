@@ -2,6 +2,7 @@ package tasks_test
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -28,6 +29,26 @@ func (s *symlinkSuite) SetupTest() {
 
 func (s *symlinkSuite) TearDownTest() {
 	s.ctrl.Finish()
+}
+
+func (s *symlinkSuite) TestNewSymlinkDir() {
+	files := []string{
+		".config",
+		"file1.txt",
+		"sub/file2.txt",
+	}
+	s.fs.EXPECT().Files("target").Return(files, nil)
+
+	list, err := NewSymlinkDir(s.fs, "target", "link", false)
+	s.Require().NoError(err)
+	s.Require().Len(list.Tasks, len(files))
+
+	for i, file := range files {
+		s.Require().Equal(
+			fmt.Sprintf("Symlink link/%s to target/%s", file, file),
+			list.Tasks[i].String(),
+		)
+	}
 }
 
 func (s *symlinkSuite) TestString() {
@@ -65,57 +86,3 @@ func (s *symlinkSuite) TestIsDone() {
 	s.fs.EXPECT().SymlinkTarget("link").Return("", errors.New("Boom"))
 	s.Require().False(s.task.IsDone())
 }
-
-// func TestSymlink(t *testing.T) {
-// dir := t.TempDir()
-
-// t.Run("String", func(t *testing.T) {
-// target := filepath.Join("testdata", "target.txt")
-// link := filepath.Join(dir, t.Name())
-// slink := NewSymlink(target, link, false)
-
-// target, _ = filepath.Abs(target)
-// link, _ = filepath.Abs(link)
-// require.Equal(t, fmt.Sprintf("Symlink %s to %s", link, target), slink.String())
-// })
-
-// t.Run("IsDone", func(t *testing.T) {
-// target := filepath.Join("testdata", "target.txt")
-// link := filepath.Join(dir, t.Name())
-// slink := NewSymlink(target, link, false)
-// require.False(t, slink.IsDone())
-
-// require.NoError(t, os.MkdirAll(filepath.Dir(link), os.ModePerm))
-// require.NoError(t, os.Symlink(target, link))
-// require.True(t, slink.IsDone())
-// })
-
-// t.Run("Do", func(t *testing.T) {
-// target := filepath.Join("testdata", "target.txt")
-// link := filepath.Join(dir, t.Name())
-// slink := NewSymlink(target, link, false)
-
-// require.NoError(t, slink.Do())
-// require.True(t, slink.IsDone())
-
-// // without force, error
-// require.Error(t, slink.Do())
-
-// // force will create it no matter what
-// slink = NewSymlink(target, link, true)
-// require.NoError(t, slink.Do())
-// })
-
-// t.Run("Undo", func(t *testing.T) {
-// target := filepath.Join("testdata", "target.txt")
-// link := filepath.Join(dir, t.Name())
-// slink := NewSymlink(target, link, false)
-
-// // can't undo what  hasn't been done
-// require.Error(t, slink.Undo())
-
-// require.NoError(t, slink.Do())
-// require.NoError(t, slink.Undo())
-// require.False(t, slink.IsDone())
-// })
-// }

@@ -2,9 +2,33 @@ package tasks
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/pseudomuto/dfiler/pkg/system"
 )
+
+// NewSymlinkDir returns a task list including tasks for each file under target.
+func NewSymlinkDir(fs system.FS, target, link string, force bool) (*TaskList, error) {
+	paths, err := fs.Files(target)
+	if err != nil {
+		return nil, err
+	}
+
+	tasks := make([]Task, len(paths))
+	for i, path := range paths {
+		tasks[i] = NewSymlink(
+			fs,
+			filepath.Join(target, path),
+			filepath.Join(link, path),
+			force,
+		)
+	}
+
+	return &TaskList{
+		Name:  "Symlink dotfiles",
+		Tasks: tasks,
+	}, nil
+}
 
 // NewSymlink returns a Task that creates symlinks by creating the link path that points to the target path.
 func NewSymlink(fs system.FS, target, link string, force bool) Task {

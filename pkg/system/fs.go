@@ -37,8 +37,16 @@ func (o *osFS) Exists(path string) bool {
 	return err == nil
 }
 
+// Files returns all files under dir (recursively). The paths will be
+// returned without the dir prefix, making them easier for the symlink
+// tasks, for example, to join them with the base link path.
 func (o *osFS) Files(dir string) ([]string, error) {
 	files := []string{}
+
+	// ensure / suffix to make prefix stripping (below) uniform
+	if !strings.HasSuffix(dir, string(filepath.Separator)) {
+		dir += string(filepath.Separator)
+	}
 
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -47,13 +55,13 @@ func (o *osFS) Files(dir string) ([]string, error) {
 
 		if !d.IsDir() {
 			// add the path without the dir/ prefix
-			files = append(files, strings.TrimPrefix(path, dir)[1:])
+			files = append(files, strings.TrimPrefix(path, dir))
 		}
 
 		return nil
 	})
 
-	return files, wrapErr(err, "failed to walk dirctory")
+	return files, wrapErr(err, "failed to walk directory")
 }
 
 func (o *osFS) Remove(path string) error {

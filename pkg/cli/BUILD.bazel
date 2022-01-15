@@ -4,12 +4,18 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "go_default_library",
     srcs = [
-        "symlink.go",
-        "task.go",
+        "cli.go",
+        "link.go",
+        "options.go",
+        "version.go",
     ],
-    importpath = "github.com/pseudomuto/dfiler/pkg/tasks",
+    importpath = "github.com/pseudomuto/dfiler/pkg/cli",
     visibility = ["//visibility:public"],
-    deps = ["//pkg/system:go_default_library"],
+    deps = [
+        "//pkg/system:go_default_library",
+        "//pkg/tasks:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+    ],
 )
 
 gomock(
@@ -17,21 +23,22 @@ gomock(
     out = "mock_fs_test.go",
     interfaces = ["FS"],
     library = "//pkg/system:go_default_library",
-    package = "tasks_test",
+    package = "cli_test",
 )
 
 go_test(
     name = "go_default_test",
     srcs = [
+        "helper_test.go",
+        "link_test.go",
         "mock_fs_test.go",
-        "symlink_test.go",
-        "task_test.go",
+        "version_test.go",
     ],
+    data = ["//testdata:all-srcs"],
     embed = [":go_default_library"],
     deps = [
         "@com_github_golang_mock//gomock:go_default_library",
         "@com_github_stretchr_testify//require:go_default_library",
-        "@com_github_stretchr_testify//suite:go_default_library",
     ],
 )
 

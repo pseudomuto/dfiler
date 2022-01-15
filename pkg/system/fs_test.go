@@ -9,6 +9,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const (
+	dotfilesDir = "../../testdata/dotfiles"
+)
+
 func TestFSSymlink(t *testing.T) {
 	dir := t.TempDir()
 	fs := NewFS()
@@ -17,8 +21,8 @@ func TestFSSymlink(t *testing.T) {
 		name   string
 		target string
 	}{
-		{name: "top-level file", target: filepath.Join("testdata", "target.txt")},
-		{name: "nested file", target: filepath.Join("testdata", "sub", "sub", "test.txt")},
+		{name: "top-level file", target: filepath.Join(dotfilesDir, "target.txt")},
+		{name: "nested file", target: filepath.Join(dotfilesDir, "sub", "sub", "test.txt")},
 	}
 
 	for _, tt := range tests {
@@ -34,18 +38,20 @@ func TestFSSymlink(t *testing.T) {
 	}
 
 	t.Run("with force", func(t *testing.T) {
-		target := filepath.Join("testdata", "target.txt")
+		target := filepath.Join(dotfilesDir, "target.txt")
 		link := filepath.Join(dir, "oops")
 		require.NoError(t, fs.Symlink(target, link, true))
 		require.Error(t, fs.Symlink(target, link, false))
 
-		target = filepath.Join("testdata", "sub", "sub", "test.txt")
+		target = filepath.Join(dotfilesDir, "sub", "sub", "test.txt")
 		require.NoError(t, fs.Symlink(target, link, true))
 	})
 }
 
 func TestFSFiles(t *testing.T) {
 	expected := []string{
+		".settings",
+		"bin/echo",
 		"target.txt",
 		"sub/sub/test.txt",
 	}
@@ -54,7 +60,7 @@ func TestFSFiles(t *testing.T) {
 	// https://pkg.go.dev/path/filepath#WalkDir
 	sort.Strings(expected)
 
-	files, err := NewFS().Files("testdata")
+	files, err := NewFS().Files(dotfilesDir)
 	require.NoError(t, err)
 	require.Equal(t, expected, files)
 }
