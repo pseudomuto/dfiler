@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: deps-go
+      uses: actions/setup-go@v2
+
+    - uses: bazelbuild/setup-bazelisk@v1
+    - name: Mount bazel cache
+      uses: actions/cache@v2
+      with:
+        path: "~/.cache/bazel"
+        key: bazel
+
+    - name: tests
+      run: make test
