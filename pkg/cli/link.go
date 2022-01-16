@@ -34,7 +34,7 @@ func Link() *cobra.Command {
 					}
 				}
 
-				writeln(cmd, "")
+				writeln(cmd, "done")
 			}
 
 			return nil
