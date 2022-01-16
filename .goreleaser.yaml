@@ -15,6 +15,21 @@ builds:
       - amd64
       - arm64
 
+dockers:
+  - image_templates:
+      - pseudomuto/{{.ProjectName}}:latest
+      - pseudomuto/{{.ProjectName}}:{{.Tag}}
+      - pseudomuto/{{.ProjectName}}:{{.Major}}
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--platform=linux/amd64"
+    extra_files:
+      - LICENSE
+
 checksum:
   name_template: 'checksums.txt'
 
