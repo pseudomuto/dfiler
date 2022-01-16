@@ -47,5 +47,4 @@ func write(cmd *cobra.Command, msg string, args ...interface{}) {
 
 func writeln(cmd *cobra.Command, msg string, args ...interface{}) {
 	write(cmd, msg+"\n", args...)
-	fmt.Fprintf(cmd.OutOrStdout(), msg+"\n", args...)
 }
