@@ -19,7 +19,7 @@ dockers:
   - image_templates:
       - pseudomuto/{{.ProjectName}}:latest-debug
       - pseudomuto/{{.ProjectName}}:{{.Tag}}-debug
-      - pseudomuto/{{.ProjectName}}:{{.Major}}-debug
+      - pseudomuto/{{.ProjectName}}:v{{.Major}}-debug
     dockerfile: Dockerfile.debug
     build_flag_templates:
       - "--pull"
@@ -32,7 +32,7 @@ dockers:
   - image_templates:
       - pseudomuto/{{.ProjectName}}:latest
       - pseudomuto/{{.ProjectName}}:{{.Tag}}
-      - pseudomuto/{{.ProjectName}}:{{.Major}}
+      - pseudomuto/{{.ProjectName}}:v{{.Major}}
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
