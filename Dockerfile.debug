@@ -1,0 +1,14 @@
+# This is essentially the same as the non-debug build. The main differences are 
+# that this one is based on debian, uses a custom user, and has it's entrypoint
+# set to /bin/bash.
+FROM debian:bookworm-slim
+RUN useradd -ms /bin/bash debugger
+USER debugger
+
+COPY dfiler /usr/local/bin
+
+VOLUME ["/source"]
+VOLUME ["/target"]
+WORKDIR /source
+
+ENTRYPOINT ["/bin/bash"]

@@ -1,6 +1,8 @@
 FROM scratch
 ENTRYPOINT ["/dfiler"]
-COPY dfiler LICENSE /
+COPY dfiler /
 
 VOLUME ["/source"]
 VOLUME ["/target"]
+
+WORKDIR /source

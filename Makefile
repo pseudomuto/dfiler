@@ -11,10 +11,21 @@ CYAN = \033[36m
 help: ## Display this help
 	@awk '\
 		BEGIN {FS = ":.*##"; printf "Usage: make $(CYAN)<target>$(CLEAR)\n"} \
-		/^[a-z0-9]+([\/][a-z0-9]+)?(-%)?:.*? ##/ { printf "  $(CYAN)%-15s$(CLEAR) %s\n", $$1, $$2 } \
+		/^[a-z0-9]+([\/]%)?([\/](%-)?[a-z0-9]+)?:.*? ##/ { printf "  $(CYAN)%-15s$(CLEAR) %s\n", $$1, $$2 } \
 		/^##@/ { printf "\n$(BOLD)%s$(CLEAR)\n", substr($$0, 5) }' \
 		$(MAKEFILE_LIST)
 
+##@: Run
+run: release/snapshot ## Run an interactive shell
+	@docker run --rm -it \
+		-v "$(PWD)/testdata/dotfiles:/source:ro" \
+		pseudomuto/dfiler:latest-debug
+
+run/release: release/snapshot ## Run the (to be released) docker image with the link command
+	@docker run --rm \
+		-v "$(PWD)/testdata/dotfiles:/source:ro" \
+		pseudomuto/dfiler:latest \
+		link
 
 ################################################################################
 # Release targets for building and releasing dfiler
@@ -42,11 +53,6 @@ sync/files: ## Sync files (gazelle + kazel)
 	@bazel run //build:kazel
 
 ################################################################################
-# Development targets
-################################################################################
-##@: Dev
-
-################################################################################
 # Test targets
 ################################################################################
 ##@: Test
@@ -54,9 +60,9 @@ test: ## Run all tests
 	@bazel test //...
 
 test/%: PKG=$*
-test/%: ## run tests for the specified package only
+test/%: ## run tests for the specified package only (pkg/%)
 	@bazel test //pkg/$(PKG):go_default_test
 
 test/%-record: PKG=$*
-test/%-record: ## run tests for the specified package and (re)record golden files
+test/%-record: ## run tests for the specified package and (re)record golden files (pkg/%)
 	@bazel run //pkg/$(PKG):go_default_test
