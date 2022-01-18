@@ -32,7 +32,7 @@ func (p *printer) Write(content []byte) (int, error) {
 	if bytes.Index(content, []byte("{{raw}}")) == 0 {
 		content = content[len("{{raw}}"):]
 	} else {
-		if n, err := p.w.Write([]byte(strings.Repeat(framePrefix, frameDepth))); err != nil {
+		if n, err := p.w.Write([]byte(Cyan(strings.Repeat(framePrefix, frameDepth)))); err != nil {
 			return n, err
 		}
 	}

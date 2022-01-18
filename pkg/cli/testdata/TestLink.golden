@@ -1,5 +1,5 @@
-┏━━ Symlink dotfiles ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-┃ * Symlink /tmp/TestLink3054027553/001/.file1 to /tmp/dotfiles/.file1...done
-┃ * Symlink /tmp/TestLink3054027553/001/file2 to /tmp/dotfiles/file2...done
-┃ * Symlink /tmp/TestLink3054027553/001/sub/path/file3.txt to /tmp/dotfiles/sub/path/file3.txt...done
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ (22.68µs) ━━
+[36m[0m[36m┏[0m[36m━━[0m [32mSymlink dotfiles[0m [36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[36m┃ [0m[33m*[0m Symlink /tmp/TestLink3783238561/001/.file1 to /tmp/dotfiles/.file1...[32mdone[0m
+[36m┃ [0m[33m*[0m Symlink /tmp/TestLink3783238561/001/file2 to /tmp/dotfiles/file2...[32mdone[0m
+[36m┃ [0m[33m*[0m Symlink /tmp/TestLink3783238561/001/sub/path/file3.txt to /tmp/dotfiles/sub/path/file3.txt...[32mdone[0m
+[36m[0m[36m┗[0m[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m (31.717µs) [36m━━[0m

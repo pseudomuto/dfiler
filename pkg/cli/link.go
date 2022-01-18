@@ -29,8 +29,14 @@ func Link() *cobra.Command {
 			}
 
 			ui.WithFrame("Symlink dotfiles", func(f *ui.Frame) {
-				for _, t := range links.PendingTasks() {
-					ui.Print("* %s...", t.String())
+				tasks := links.PendingTasks()
+				if len(tasks) == 0 {
+					ui.Println("Nothing to do here")
+					return
+				}
+
+				for _, t := range tasks {
+					ui.Print("%s %s...", ui.Yellow("*"), t.String())
 
 					if !dryRun {
 						if innerErr := t.Do(); innerErr != nil {
@@ -40,7 +46,7 @@ func Link() *cobra.Command {
 						}
 					}
 
-					ui.PrintlnRaw("done")
+					ui.PrintlnRaw(ui.Green("done"))
 				}
 			})
 

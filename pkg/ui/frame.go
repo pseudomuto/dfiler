@@ -32,13 +32,13 @@ type Frame struct {
 }
 
 func frameOffset() int {
-	return frameDepth*len(framePrefix)/2 - len(framePrefix)
+	return frameDepth * len(framePrefix)
 }
 
 // Open creates a new frame with the supplied text as a header
 func (f *Frame) Open(text string) {
-	out := fmt.Sprintf("%s%s%s %s ", topLeft, horizontal, horizontal, text)
-	out = fmt.Sprintf("%s%s", out, strings.Repeat(horizontal, f.tWidth-frameOffset()-len(out)))
+	out := fmt.Sprintf("%s%s %s ", Cyan(topLeft), Cyan(strings.Repeat(horizontal, 2)), Green(text))
+	out = fmt.Sprintf("%s%s", out, Cyan(strings.Repeat(horizontal, f.tWidth-frameOffset()-strLen(out))))
 	Println(out)
 
 	frameDepth++
@@ -51,13 +51,13 @@ func (f *Frame) Close() {
 	text := fmt.Sprintf(
 		" (%s) %s",
 		time.Since(f.startTime),
-		strings.Repeat(horizontal, 2),
+		Cyan(strings.Repeat(horizontal, 2)),
 	)
 
 	Print(
 		"%s%s%s\n",
-		bottomLeft,
-		strings.Repeat(horizontal, f.tWidth-len(text)-len(bottomLeft)-frameOffset()+1),
+		Cyan(bottomLeft),
+		Cyan(strings.Repeat(horizontal, f.tWidth-strLen(text)-len(bottomLeft)-frameOffset()+1)),
 		text,
 	)
 }

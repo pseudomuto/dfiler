@@ -33,14 +33,14 @@ func Run(options ...Option) error {
 
 			if dryRun, _ := cmd.Flags().GetBool("dryrun"); dryRun {
 				ui.Println("")
-				ui.Println("DRYRUN...nothing will be updated")
+				ui.Println("%s: Nothing will be updated", ui.Yellow("DRY RUN"))
 				ui.Println("")
 			}
 		},
 		PersistentPostRun: func(cmd *cobra.Command, _ []string) {
 			if dryRun, _ := cmd.Flags().GetBool("dryrun"); dryRun {
 				ui.Println("")
-				ui.Println("DRYRUN...nothing was updated")
+				ui.Println("%s: Nothing was updated", ui.Yellow("DRY RUN"))
 			}
 		},
 	}
