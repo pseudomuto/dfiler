@@ -5,6 +5,7 @@ import (
 
 	"github.com/pseudomuto/dfiler/pkg/system"
 	"github.com/pseudomuto/dfiler/pkg/tasks"
+	"github.com/pseudomuto/dfiler/pkg/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -20,28 +21,33 @@ func Link() *cobra.Command {
 			dryRun, _ := cmd.Flags().GetBool("dryrun")
 			force, _ := cmd.Flags().GetBool("force")
 
+			var err error
 			fs := cmd.Context().Value(fsKey).(system.FS)
 			links, err := tasks.NewSymlinkDir(fs, source, target, force)
 			if err != nil {
 				return err
 			}
 
-			for _, t := range links.PendingTasks() {
-				write(cmd, "%s...", t.String())
-				if !dryRun {
-					if err := t.Do(); err != nil {
-						return err
-					}
-				}
+			ui.WithFrame("Symlink dotfiles", func(f *ui.Frame) {
+				for _, t := range links.PendingTasks() {
+					ui.Print("* %s...", t.String())
 
-				writeln(cmd, "done")
-			}
+					if !dryRun {
+						if innerErr := t.Do(); innerErr != nil {
+							err = innerErr
+							ui.PrintlnRaw("FAIL")
+							break
+						}
+					}
+
+					ui.PrintlnRaw("done")
+				}
+			})
 
 			return nil
 		},
 	}
 
-	cmd.Flags().BoolP("dryrun", "n", false, "If set, don't create links, just pretend to")
 	cmd.Flags().BoolP("force", "f", false, "Force overwriting files")
 	cmd.Flags().StringP("source", "s", ".", "The source directory containing the files")
 	cmd.Flags().StringP("target", "t", os.Getenv("HOME"), "The directory to put symlinks into")

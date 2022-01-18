@@ -53,6 +53,10 @@ sync/files: ## Sync files (gazelle + kazel)
 test: ## Run all tests
 	@bazel test //...
 
-test/pkg-%: PKG=$*
-test/pkg-%: ## run tests for the specified package only
+test/%: PKG=$*
+test/%: ## run tests for the specified package only
 	@bazel test //pkg/$(PKG):go_default_test
+
+test/%-record: PKG=$*
+test/%-record: ## run tests for the specified package and (re)record golden files
+	@bazel run //pkg/$(PKG):go_default_test

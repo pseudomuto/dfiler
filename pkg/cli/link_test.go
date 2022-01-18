@@ -2,12 +2,13 @@ package cli_test
 
 import (
 	"errors"
-	"fmt"
 	"path/filepath"
+	"regexp"
 	"testing"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/pseudomuto/dfiler/pkg/cli"
+	"github.com/pseudomuto/dfiler/pkg/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -38,11 +39,9 @@ func TestLink(t *testing.T) {
 	)
 
 	require.NoError(t, err)
-	for _, file := range files {
-		require.Contains(t, out, fmt.Sprintf(
-			"Symlink %s to %s...done",
-			filepath.Join(targetDir, file),
-			filepath.Join(sourceDir, file),
-		))
-	}
+	testutil.RequireMatch(t, "", out, testutil.StripCloseFrame, func(in string) string {
+		// tmpdirs won't match so fix those up
+		r := regexp.MustCompile(`/tmp/TestLink(\d+)/001`)
+		return string(r.ReplaceAll([]byte(in), []byte(targetDir)))
+	})
 }

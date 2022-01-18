@@ -39,6 +39,8 @@ filegroup(
         "//pkg/cli:all-srcs",
         "//pkg/system:all-srcs",
         "//pkg/tasks:all-srcs",
+        "//pkg/testutil:all-srcs",
+        "//pkg/ui:all-srcs",
         "//testdata:all-srcs",
     ],
     tags = ["automanaged"],

@@ -1,0 +1,37 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "frame.go",
+        "printer.go",
+        "terminal.go",
+    ],
+    importpath = "github.com/pseudomuto/dfiler/pkg/ui",
+    visibility = ["//visibility:public"],
+    deps = ["@org_golang_x_term//:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["frame_test.go"],
+    data = glob(["testdata/**"]),
+    deps = [
+        ":go_default_library",
+        "//pkg/testutil:go_default_library",
+    ],
+)
+
+filegroup(
+    name = "package-srcs",
+    srcs = glob(["**"]),
+    tags = ["automanaged"],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
+    name = "all-srcs",
+    srcs = [":package-srcs"],
+    tags = ["automanaged"],
+    visibility = ["//visibility:public"],
+)

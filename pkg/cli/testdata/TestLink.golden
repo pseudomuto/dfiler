@@ -1,0 +1,5 @@
+┏━━ Symlink dotfiles ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┃ * Symlink /tmp/TestLink3054027553/001/.file1 to /tmp/dotfiles/.file1...done
+┃ * Symlink /tmp/TestLink3054027553/001/file2 to /tmp/dotfiles/file2...done
+┃ * Symlink /tmp/TestLink3054027553/001/sub/path/file3.txt to /tmp/dotfiles/sub/path/file3.txt...done
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ (22.68µs) ━━

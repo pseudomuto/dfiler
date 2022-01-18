@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"github.com/pseudomuto/dfiler/pkg/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -11,9 +12,9 @@ func Version() *cobra.Command {
 		Short: "show version info",
 		Long:  "show version details about this executable",
 		Run: func(cmd *cobra.Command, _ []string) {
-			writeln(cmd, "Version: %s", cmd.Annotations["version"])
-			writeln(cmd, "Build SHA: %s", cmd.Annotations["sha"])
-			writeln(cmd, "Build date: %s", cmd.Annotations["date"])
+			ui.Println("Version: %s", cmd.Annotations["version"])
+			ui.Println("Build SHA: %s", cmd.Annotations["sha"])
+			ui.Println("Build date: %s", cmd.Annotations["date"])
 		},
 	}
 }
