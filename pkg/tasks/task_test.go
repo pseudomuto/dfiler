@@ -138,6 +138,19 @@ func TestTaskListPendingTasks(t *testing.T) {
 	require.Len(t, list.PendingTasks(), 1)
 }
 
+func TestTaskListCompletedTasks(t *testing.T) {
+	list := TaskList{
+		Name: "test list",
+		Tasks: []Task{
+			&testTask{done: true},
+			&testTask{},
+			&testTask{done: true},
+		},
+	}
+
+	require.Len(t, list.CompletedTasks(), 2)
+}
+
 type testTask struct {
 	do   error
 	undo error

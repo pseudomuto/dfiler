@@ -59,3 +59,17 @@ func (tl *TaskList) PendingTasks() []Task {
 
 	return tasks
 }
+
+// CompletedTasks returns only tasks where IsDone returns true
+func (tl *TaskList) CompletedTasks() []Task {
+	tasks := []Task{}
+	for _, t := range tl.Tasks {
+		if !t.IsDone() {
+			continue
+		}
+
+		tasks = append(tasks, t)
+	}
+
+	return tasks
+}

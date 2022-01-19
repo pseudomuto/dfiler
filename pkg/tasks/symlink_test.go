@@ -67,11 +67,24 @@ func (s *symlinkSuite) TestDo() {
 }
 
 func (s *symlinkSuite) TestUndo() {
+	s.fs.EXPECT().Abs("target").Return("target")
+	s.fs.EXPECT().SymlinkTarget("link").Return("target", nil)
 	s.fs.EXPECT().Remove("link").Return(nil)
 	s.Require().NoError(s.task.Undo())
 
-	s.fs.EXPECT().Remove("link").Return(errors.New("Boom"))
-	s.Require().EqualError(s.task.Undo(), "Boom")
+	// exists, but points to another file
+	s.T().Run("wrong link target", func(t *testing.T) {
+		s.fs.EXPECT().Abs("target").Return("/other/target")
+		s.fs.EXPECT().SymlinkTarget("link").Return("target", nil)
+		s.Require().NoError(s.task.Undo()) // no call to remove
+	})
+
+	s.T().Run("error removing file", func(t *testing.T) {
+		s.fs.EXPECT().Abs("target").Return("target")
+		s.fs.EXPECT().SymlinkTarget("link").Return("target", nil)
+		s.fs.EXPECT().Remove("link").Return(errors.New("Boom"))
+		s.Require().EqualError(s.task.Undo(), "Boom")
+	})
 }
 
 func (s *symlinkSuite) TestIsDone() {

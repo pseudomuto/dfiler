@@ -21,7 +21,6 @@ func Link() *cobra.Command {
 			dryRun, _ := cmd.Flags().GetBool("dryrun")
 			force, _ := cmd.Flags().GetBool("force")
 
-			var err error
 			fs := cmd.Context().Value(fsKey).(system.FS)
 			links, err := tasks.NewSymlinkDir(fs, source, target, force)
 			if err != nil {
@@ -29,28 +28,28 @@ func Link() *cobra.Command {
 			}
 
 			ui.WithFrame("Symlink dotfiles", func(f *ui.Frame) {
-				tasks := links.PendingTasks()
-				if len(tasks) == 0 {
-					ui.Println("Nothing to do here")
-					return
-				}
-
-				for _, t := range tasks {
-					ui.Print("%s %s...", ui.Yellow("*"), t.String())
-
-					if !dryRun {
-						if innerErr := t.Do(); innerErr != nil {
-							err = innerErr
-							ui.PrintlnRaw("FAIL")
-							break
+				err = tasks.RunTaskList(links, tasks.RunOptions{
+					DryRun: dryRun,
+					NoTasks: func() {
+						ui.Println("Nothing to do here")
+					},
+					Before: func(t tasks.Task) error {
+						ui.Print("%s %s...", ui.Yellow("*"), t.String())
+						return nil
+					},
+					After: func(t tasks.Task, err error) error {
+						if err != nil {
+							ui.PrintlnRaw(ui.Red("FAIL"))
+							return err
 						}
-					}
 
-					ui.PrintlnRaw(ui.Green("done"))
-				}
+						ui.PrintlnRaw(ui.Green("done"))
+						return nil
+					},
+				})
 			})
 
-			return nil
+			return err
 		},
 	}
 

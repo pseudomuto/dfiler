@@ -11,16 +11,18 @@ import (
 var (
 	cyan   = ""
 	green  = ""
-	yellow = ""
+	red    = ""
 	reset  = ""
+	yellow = ""
 )
 
 func init() {
 	trm := term.NewTerminal(nil, "")
 	cyan = string(trm.Escape.Cyan)
 	green = string(trm.Escape.Green)
-	yellow = string(trm.Escape.Yellow)
+	red = string(trm.Escape.Red)
 	reset = string(trm.Escape.Reset)
+	yellow = string(trm.Escape.Yellow)
 }
 
 func Cyan(str string) string {
@@ -29,6 +31,10 @@ func Cyan(str string) string {
 
 func Green(str string) string {
 	return color(str, green)
+}
+
+func Red(str string) string {
+	return color(str, red)
 }
 
 func Yellow(str string) string {
