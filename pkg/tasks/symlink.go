@@ -57,7 +57,11 @@ func (s *symlink) Do() error {
 }
 
 func (s *symlink) Undo() error {
-	return s.fs.Remove(s.link)
+	if s.IsDone() {
+		return s.fs.Remove(s.link)
+	}
+
+	return nil
 }
 
 func (s *symlink) IsDone() bool {
