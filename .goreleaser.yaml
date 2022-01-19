@@ -2,7 +2,7 @@ project_name: dfiler
 
 before:
   hooks:
-    - make sync
+    - go mod tidy
 
 builds:
   - main: ./cmd/dfiler
