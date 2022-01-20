@@ -19,6 +19,7 @@ func Link() *cobra.Command {
 			source, _ := cmd.Flags().GetString("source")
 			target, _ := cmd.Flags().GetString("target")
 			dryRun, _ := cmd.Flags().GetBool("dryrun")
+			undo, _ := cmd.Flags().GetBool("undo")
 			force, _ := cmd.Flags().GetBool("force")
 
 			fs := cmd.Context().Value(fsKey).(system.FS)
@@ -27,9 +28,15 @@ func Link() *cobra.Command {
 				return err
 			}
 
-			ui.WithFrame("Symlink dotfiles", func(f *ui.Frame) {
+			title := "Symlink dotfiles"
+			if undo {
+				title = "Remove symlinked dotfiles"
+			}
+
+			ui.WithFrame(title, func(f *ui.Frame) {
 				err = tasks.RunTaskList(links, tasks.RunOptions{
 					DryRun: dryRun,
+					Undo:   undo,
 					NoTasks: func() {
 						ui.Println("Nothing to do here")
 					},
@@ -53,9 +60,10 @@ func Link() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().BoolP("force", "f", false, "Force overwriting files")
 	cmd.Flags().StringP("source", "s", ".", "The source directory containing the files")
 	cmd.Flags().StringP("target", "t", os.Getenv("HOME"), "The directory to put symlinks into")
+	cmd.Flags().BoolP("force", "f", false, "Force overwriting files")
+	cmd.Flags().BoolP("undo", "u", false, "Undo linked files (remove symlinks)")
 
 	return cmd
 }
