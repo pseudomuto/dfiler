@@ -1,0 +1,5 @@
+[36m[0m[36m┏[0m[36m━━[0m [32mRemove symlinked dotfiles[0m [36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[36m┃ [0m[33m*[0m Symlink /tmp/TestLinkUndo706800380/001/.file1 to /tmp/dotfiles/.file1...[32mdone[0m
+[36m┃ [0m[33m*[0m Symlink /tmp/TestLinkUndo706800380/001/file2 to /tmp/dotfiles/file2...[32mdone[0m
+[36m┃ [0m[33m*[0m Symlink /tmp/TestLinkUndo706800380/001/sub/path/file3.txt to /tmp/dotfiles/sub/path/file3.txt...[32mdone[0m
+[36m[0m[36m┗[0m[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m (82.527µs) [36m━━[0m

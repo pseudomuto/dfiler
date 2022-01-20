@@ -9,9 +9,11 @@ type RunOptions struct {
 }
 
 func RunTaskList(tl *TaskList, opts RunOptions) error {
-	tasks := tl.PendingTasks()
+	var tasks []Task
 	if opts.Undo {
 		tasks = tl.CompletedTasks()
+	} else {
+		tasks = tl.PendingTasks()
 	}
 
 	if len(tasks) == 0 {
